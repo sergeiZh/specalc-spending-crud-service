@@ -1,4 +1,4 @@
-package com.zh.sergei.specalc.model.entity;
+package com.zh.sergei.specalc.model;
 
 import lombok.Data;
 
