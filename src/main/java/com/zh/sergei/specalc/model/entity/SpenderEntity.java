@@ -6,9 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
-@Table(name = "spender",
-	   uniqueConstraints = {@UniqueConstraint(name = "external_id_uk", columnNames = "external_id")}
-)
+@Table(name = "spender")
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
@@ -18,11 +16,8 @@ public class SpenderEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   long id;
 
-  @Column(name = "external_id",
-		  nullable = false,
-		  columnDefinition = "TEXT"
-  )
-  String externalId;
+  @OneToOne(mappedBy = "spender")
+  SpendingEntity externalId;
 
   @Column(name = "first_name",
 		  nullable = false,
