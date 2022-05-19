@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table(name = "spender")
 @Entity
@@ -13,11 +14,10 @@ import javax.persistence.*;
 public class SpenderEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  long id;
+  String id;
 
-  @OneToOne(mappedBy = "spender")
-  SpendingEntity externalId;
+  @OneToMany(mappedBy = "spender")
+  List<SpendingEntity> spendings;
 
   @Column(name = "first_name",
 		  nullable = false,

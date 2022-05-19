@@ -17,8 +17,7 @@ public class SpendingEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   long id;
 
-  @OneToOne
-  @JoinColumn(name = "spender_id")
+  @ManyToOne(fetch = FetchType.LAZY)
   SpenderEntity spender;
 
   @Column(name = "name")
