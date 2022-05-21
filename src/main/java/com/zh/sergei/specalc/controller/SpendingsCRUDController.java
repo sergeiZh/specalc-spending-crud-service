@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1")
@@ -24,9 +21,15 @@ public class SpendingsCRUDController {
     SpendingsCRUDService spendingsCRUDService;
 
     @PostMapping(value = "/spending", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity addSpending(@RequestBody Spending spending) {
+    public ResponseEntity<Spending> addSpending(@RequestBody Spending spending) {
         SpendingEntity spendingEntity = spendingsCRUDService.addNewSpending(spending);
-        return ResponseEntity.ok(spendingEntity);
+        return ResponseEntity.ok(spending);
+    }
+
+    @GetMapping(value = "/spending")
+    public ResponseEntity<Spending> getSpendingById(long spendingId){
+
+        return ResponseEntity.ok(null);
     }
 
     @PostMapping(value = "/spender", consumes = MediaType.APPLICATION_JSON_VALUE)

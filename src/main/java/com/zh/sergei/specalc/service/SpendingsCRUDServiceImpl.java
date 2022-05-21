@@ -25,25 +25,23 @@ public class SpendingsCRUDServiceImpl implements SpendingsCRUDService {
     @Override
     public SpenderEntity addNewSpender(Spender spender) {
         SpenderEntity spenderEntity = new SpenderEntity();
+        spenderEntity.setId(spender.getId());
         spenderEntity.setFirstName(spender.getFirstName());
         spenderEntity.setLastName(spender.getLastName());
 
-
-        SpendingEntity spendingEntity = new SpendingEntity();
-        spendingEntity.setName("spending name");
-        spendingEntity.setSpender(spenderEntity);
-        spenderRepository.save(spenderEntity);
-        spendingRepository.save(spendingEntity);
-
-        return spendingEntity.getSpender();
+        return spenderRepository.save(spenderEntity);
     }
 
     @Override
     public SpendingEntity addNewSpending(Spending spending) {
         SpendingEntity spendingEntity = new SpendingEntity();
-        Optional<SpenderEntity> spender = spenderRepository.findById(spending.getSpenderId());
-        spendingEntity.setSpender(spender.get());
-        spendingEntity.setName(spending.getName());
-        return spendingRepository.save(spendingEntity);
+        SpenderEntity spenderEntity = spenderRepository.findById(spending.getSpenderId());
+        if(spenderEntity != null) {
+            spendingEntity.setSpender(spenderEntity);
+            spendingEntity.setName(spending.getName());
+            spendingEntity.setTotal(spending.getTotal());
+            return spendingRepository.save(spendingEntity);
+        }
+        return null;
     }
 }

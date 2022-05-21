@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Spender {
 
-  String externalId;
+  String id;
 
   String firstName;
 
