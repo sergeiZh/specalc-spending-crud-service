@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +44,23 @@ public class SpendingsCRUDServiceImpl implements SpendingsCRUDService {
             return spendingRepository.save(spendingEntity);
         }
         return null;
+    }
+
+    @Override
+    public SpendingEntity findById(long id) {
+        return spendingRepository.getById(id);
+    }
+
+    @Override
+    public List<Spending> findAllForSpenderWithId(String spenderId) {
+        List<SpendingEntity> spendingEntities = spendingRepository.findBySpenderId(spenderId);
+        return spendingEntities.stream()
+                               .map(spendingEntity -> {
+                                   Spending spending = new Spending();
+                                   spending.setName(spendingEntity.getName());
+                                   spending.setSpenderId(spendingEntity.getSpender().getId());
+                                   spending.setTotal(spendingEntity.getTotal());
+                                   return spending;
+                               }).collect(Collectors.toList());
     }
 }

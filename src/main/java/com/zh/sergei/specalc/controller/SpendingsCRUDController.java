@@ -12,6 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
@@ -26,10 +29,20 @@ public class SpendingsCRUDController {
         return ResponseEntity.ok(spending);
     }
 
-    @GetMapping(value = "/spending")
-    public ResponseEntity<Spending> getSpendingById(long spendingId){
+    @GetMapping(value = "/spending/{spendingId}")
+    public ResponseEntity<Spending> getSpendingById(@PathVariable long spendingId){
+        SpendingEntity actualSpendingEntity = spendingsCRUDService.findById(spendingId);
+        Spending spending = new Spending();
+        spending.setName(actualSpendingEntity.getName());
+        spending.setSpenderId(actualSpendingEntity.getSpender().getId());
+        spending.setTotal(actualSpendingEntity.getTotal());
+        return ResponseEntity.ok(spending);
+    }
 
-        return ResponseEntity.ok(null);
+    @GetMapping(value = "/spender/{spenderId}/spending")
+    public ResponseEntity<List<Spending>> getAllSpendingsForSpender(@PathVariable String spenderId){
+        List<Spending> spendings = spendingsCRUDService.findAllForSpenderWithId(spenderId);
+        return ResponseEntity.ok(spendings);
     }
 
     @PostMapping(value = "/spender", consumes = MediaType.APPLICATION_JSON_VALUE)
