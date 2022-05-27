@@ -12,9 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1")
@@ -34,7 +32,7 @@ public class SpendingsCRUDController {
     public ResponseEntity<Spending> getSpendingById(@PathVariable long spendingId){
         SpendingEntity actualSpendingEntity = spendingsCRUDService.findById(spendingId);
         Spending spending = new Spending();
-        spending.setName(actualSpendingEntity.getName());
+        spending.setName(actualSpendingEntity.getTitle());
         spending.setSpenderId(actualSpendingEntity.getSpender().getId());
         spending.setTotal(actualSpendingEntity.getTotal());
         return ResponseEntity.ok(spending);

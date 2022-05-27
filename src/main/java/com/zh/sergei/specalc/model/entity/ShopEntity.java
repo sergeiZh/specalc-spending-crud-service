@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
+@Entity
+@Table(name = "shop")
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -21,4 +23,7 @@ public class ShopEntity {
 
   @Column(name = "type")
   String type;
+
+  @OneToMany(mappedBy = "shop")
+  List<SpendingEntity> spendingEntities;
 }

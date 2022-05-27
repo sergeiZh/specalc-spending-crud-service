@@ -39,7 +39,7 @@ public class SpendingsCRUDServiceImpl implements SpendingsCRUDService {
         SpenderEntity spenderEntity = spenderRepository.findById(spending.getSpenderId());
         if(spenderEntity != null) {
             spendingEntity.setSpender(spenderEntity);
-            spendingEntity.setName(spending.getName());
+            spendingEntity.setTitle(spending.getName());
             spendingEntity.setTotal(spending.getTotal());
             return spendingRepository.save(spendingEntity);
         }
@@ -57,7 +57,7 @@ public class SpendingsCRUDServiceImpl implements SpendingsCRUDService {
         return spendingEntities.stream()
                                .map(spendingEntity -> {
                                    Spending spending = new Spending();
-                                   spending.setName(spendingEntity.getName());
+                                   spending.setName(spendingEntity.getTitle());
                                    spending.setSpenderId(spendingEntity.getSpender().getId());
                                    spending.setTotal(spendingEntity.getTotal());
                                    return spending;
